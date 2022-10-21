@@ -86,26 +86,17 @@ class DoubleLinkedList {
     if (!this.head || !this.head.next) {
       return this.head;
     }
-    let node = null;
-    let prev = null;
-    let next = null;
-    let head = this.head;
-    let tail = this.tail;
-    for (let i = 0; i < this.length; i++) {
-      if (i === 0) {
-        node = this.head;
-      }
-      prev = node.previous;
-      next = node.next;
-      node.previous = next;
-      node.next = prev;
-      node = next;
+    let temp = null;
+    let current = this.head;
+    while (current !== null) {
+      temp = current.previous;
+      current.previous = current.next;
+      current.next = temp;
+      current = current.previous;
     }
-    this.head = tail;
-    this.head.prev = null;
-    this.tail = head;
-    this.tail.next = null;
-    return this;
+    if (temp !== null) {
+      this.head = temp.previous;
+    }
   }
 
   getLength() {
