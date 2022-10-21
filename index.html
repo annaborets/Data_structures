@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/index.css" />
+    <title>Data structures visualization</title>
+  </head>
+  <body>
+    <ul class="cards">
+      <li class="cards__item selected" id="queue">Queue</li>
+      <li class="cards__item" id="stack">Stack</li>
+      <li class="cards__item" id="set">Set</li>
+      <li class="cards__item" id="single">Single linked list</li>
+      <li class="cards__item" id="double">Double linked list</li>
+      <li class="cards__item" id="circular">Circular linked list</li>
+    </ul>
+    <div class="objects">
+      <object data="./components/queue.html" class="queue"></object>
+      <object data="./components/stack.html" class="stack" hidden></object>
+      <object data="./components/set.html" class="set" hidden></object>
+      <object
+        data="./components/single_linked_list.html"
+        class="single"
+        hidden
+      ></object>
+      <object
+        data="./components/double_linked_list.html"
+        class="double"
+        hidden
+      ></object>
+      <object
+        data="./components/circular_linked_list.html"
+        class="circular"
+        hidden
+      ></object>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

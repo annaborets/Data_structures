@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1 class="header">Double linked list</h1>
+      <div class="dllist">
+        <div class="input">
+          <input
+            type="text"
+            class="input__item input__item_add"
+            placeholder="Type value to add or remove..."
+          />
+          <input
+            type="text"
+            class="input__item input__item_after"
+            placeholder="Type value to add after..."
+          />
+        </div>
+        <div class="buttons">
+          <button class="buttons__item buttons__item_add">Add Item</button>
+          <button class="buttons__item buttons__item_remove">
+            Remove Item
+          </button>
+          <button class="buttons__item buttons__item_reverse">
+            Reverse List
+          </button>
+        </div>
+        <div class="list__container"></div>
+      </div>
+    </div>
+    <script src="/js/double_linked_list.js"></script>
+  </body>
+</html>
