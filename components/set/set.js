@@ -45,7 +45,7 @@ class Set {
   }
 
   renderItems() {
-    containerForItems.classList.remove("none");
+    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     this.elements.map((item) => {
       const setItem = document.createElement("li");
@@ -53,10 +53,14 @@ class Set {
       setItem.innerText = item;
       containerForItems.appendChild(setItem);
     });
+    if (this.elements.length === 0) {
+      containerForItems.classList.add("list_empty");
+    }
   }
 }
 
 let set = new Set();
+
 addBtn.addEventListener("click", () => {
   const text = input.value.trim();
   if (text !== "") {

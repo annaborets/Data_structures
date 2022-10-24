@@ -37,7 +37,7 @@ class Stack {
   }
 
   renderItems() {
-    containerForItems.classList.remove("none")
+    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     this.elements.map((item) => {
       const stackItem = document.createElement("li");
@@ -45,6 +45,9 @@ class Stack {
       stackItem.innerText = item;
       containerForItems.appendChild(stackItem);
     });
+    if (this.elements.length === 0) {
+      containerForItems.classList.add("list_empty");
+    }
   }
 }
 

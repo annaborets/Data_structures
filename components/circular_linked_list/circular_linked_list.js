@@ -79,9 +79,21 @@ class CircularLinkedList {
     if (!this.head) {
       return;
     }
+    let found = this.findElement(data);
+    if (!found) {
+      alert("Value not found");
+      return;
+    }
+    if (found === this.head && !this.head.next) {
+      this.head = null;
+      this.lenght--;
+      return this.head;
+    }
     if (this.head && this.head.data === data) {
       this.head = this.head.next;
       this.tail.next = this.head;
+      this.length--;
+      return this.head;
     }
     let current = this.head;
     let counter = 0;
@@ -97,6 +109,7 @@ class CircularLinkedList {
       this.tail = current;
     }
     this.length--;
+    return current.data;
   }
 
   getLength() {
@@ -114,7 +127,7 @@ class CircularLinkedList {
   }
 
   renderItems() {
-    containerForItems.classList.remove("none");
+    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     let current = this.head;
     let counter = 0;
@@ -134,21 +147,24 @@ class CircularLinkedList {
       current = current.next;
       counter++;
     }
+    if (this.length === 0) {
+      containerForItems.classList.add("list_empty");
+    }
   }
 }
 
-let clist = new CircularLinkedList();
+let circularLinkedList = new CircularLinkedList();
 
 addBtn.addEventListener("click", () => {
   const text = inputAdd.value.trim();
   const textAfter = inputAfter.value.trim();
   if (text !== "") {
     if (textAfter !== "") {
-      clist.insertElementAfter(textAfter, text);
-      clist.renderItems();
+      circularLinkedList.insertElementAfter(textAfter, text);
+      circularLinkedList.renderItems();
     } else {
-      clist.appendElement(text);
-      clist.renderItems();
+      circularLinkedList.appendElement(text);
+      circularLinkedList.renderItems();
     }
   } else {
     alert("Please type something");
@@ -158,7 +174,7 @@ addBtn.addEventListener("click", () => {
 });
 
 removeBtn.addEventListener("click", () => {
-  clist.deleteElement(inputAdd.value);
+  circularLinkedList.deleteElement(inputAdd.value);
   inputAdd.value = "";
-  clist.renderItems();
+  circularLinkedList.renderItems();
 });

@@ -17,7 +17,6 @@ class DoubleLinkedListNode {
 class DoubleLinkedList {
   constructor() {
     this.head = null;
-    this.tail = null;
     this.length = 0;
   }
 
@@ -25,59 +24,74 @@ class DoubleLinkedList {
     return this.head.data;
   }
 
-  appendElement(data) {
-    if (this.getLength() >= 10) {
-      alert("Too much items!");
-    }
-    const node = new DoubleLinkedListNode(data);
+  findElement(data) {
     if (!this.head) {
-      this.head = node;
-      this.tail = node;
-    } else {
-      node.previous = this.tail;
-      this.tail.next = node;
-      this.tail = node;
+      return;
     }
-    this.length++;
-  }
-
-  insertElementAfter(after, data) {
     let current = this.head;
     while (current) {
-      if (current.data === after) {
-        let node = new DoubleLinkedListNode(data);
-        if (current === this.tail) {
-          this.add(data);
-        } else {
-          current.next.previous = node;
-          node.previous = current;
-          node.next = current.next;
-          current.next = node;
-          this.length++;
-        }
+      if (current.data === data) {
+        return current;
       }
       current = current.next;
     }
   }
 
+  appendElement(data) {
+    if (this.getLength() >= 10) {
+      alert("Too much items!");
+      return;
+    }
+    const node = new DoubleLinkedListNode(data);
+    node.next = null;
+    let current = this.head;
+    if (!current) {
+      node.prev = null;
+      this.head = node;
+    } else {
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = node;
+      node.previous = current;
+    }
+    this.length++;
+  }
+
+  insertElementAfter(after, data) {
+    const found = this.findElement(after);
+    if (!found) {
+      alert("Value not found");
+      return;
+    }
+    const node = new DoubleLinkedListNode(data, found.next, found);
+    found.next.previous = node;
+    found.next = node;
+    this.length++;
+  }
+
   deleteElement(data) {
+    let found = this.findElement(data);
+    if (!found) {
+      alert("Value not found");
+      return;
+    }
     let current = this.head;
     while (current) {
       if (current.data === data) {
-        if (current === this.head && current === this.tail) {
+        if (current === this.head && !this.head.next) {
           this.head = null;
-          this.tail = null;
         } else if (current === this.head) {
           this.head = this.head.next;
           this.head.previous = null;
-        } else if (current === this.tail) {
-          this.tail = this.tail.previous;
-          this.tail.next = null;
+        } else if (!current.next) {
+          current.previous.next = null;
         } else {
           current.previous.next = current.next;
           current.next.previous = current.previous;
         }
-        this.numberOfValues--;
+        this.length--;
+        return current.data;
       }
       current = current.next;
     }
@@ -88,7 +102,6 @@ class DoubleLinkedList {
       return this.head;
     }
     let temp = null;
-    this.tail = this.head;
     let current = this.head;
     while (current !== null) {
       temp = current.previous;
@@ -114,7 +127,7 @@ class DoubleLinkedList {
   }
 
   renderItems() {
-    containerForItems.classList.remove("none")
+    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     let current = this.head;
     while (current) {
@@ -122,9 +135,6 @@ class DoubleLinkedList {
       let text = "";
       if (current === this.head) {
         text += "Head. ";
-      }
-      if (current === this.tail) {
-        text += "Tail. ";
       }
       text += `Value = ${current.data}, next = ${
         current.next ? current.next.data : null
@@ -134,21 +144,24 @@ class DoubleLinkedList {
       containerForItems.appendChild(listItem);
       current = current.next;
     }
+    if (this.length === 0) {
+      containerForItems.classList.add("list_empty");
+    }
   }
 }
 
-let dlist = new DoubleLinkedList();
+let doubleLinkedList = new DoubleLinkedList();
 
 addBtn.addEventListener("click", () => {
   const text = inputAdd.value.trim();
   const textAfter = inputAfter.value.trim();
   if (text !== "") {
     if (textAfter !== "") {
-      dlist.insertElementAfter(textAfter, text);
-      dlist.renderItems();
+      doubleLinkedList.insertElementAfter(textAfter, text);
+      doubleLinkedList.renderItems();
     } else {
-      dlist.appendElement(text);
-      dlist.renderItems();
+      doubleLinkedList.appendElement(text);
+      doubleLinkedList.renderItems();
     }
     inputAdd.value = "";
     inputAfter.value = "";
@@ -159,15 +172,15 @@ addBtn.addEventListener("click", () => {
 
 removeBtn.addEventListener("click", () => {
   if (inputAdd.value !== "") {
-    dlist.deleteElement(inputAdd.value);
+    doubleLinkedList.deleteElement(inputAdd.value);
     inputAdd.value = "";
-    dlist.renderItems();
+    doubleLinkedList.renderItems();
   } else {
     alert("Please type something");
   }
 });
 
 reverseBtn.addEventListener("click", () => {
-  dlist.reverse();
-  dlist.renderItems();
+  doubleLinkedList.reverse();
+  doubleLinkedList.renderItems();
 });

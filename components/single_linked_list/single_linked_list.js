@@ -16,7 +16,6 @@ class LinkedListNode {
 class LinkedList {
   constructor() {
     this.head = null;
-    this.tail = null;
     this.length = 0;
   }
 
@@ -27,24 +26,26 @@ class LinkedList {
   appendElement(data) {
     if (this.getLength() >= 10) {
       alert("Too much items!");
+      return;
     }
     const node = new LinkedListNode(data);
-    if (this.tail) {
-      this.tail.next = node;
-    }
+    let current;
     if (!this.head) {
       this.head = node;
+    } else {
+      current = this.head;
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = node;
     }
-    this.tail = node;
     this.length++;
   }
 
   prependElement(data) {
     const node = new LinkedListNode(data, this.head);
+    node.next = this.head;
     this.head = node;
-    if (!this.tail) {
-      this.tail = node;
-    }
     this.length++;
   }
 
@@ -64,6 +65,7 @@ class LinkedList {
   insertElementAfter(after, data) {
     const found = this.findElement(after);
     if (!found) {
+      alert("Value not found");
       return;
     }
     const node = new LinkedListNode(data, found.next);
@@ -72,31 +74,35 @@ class LinkedList {
   }
 
   deleteElement(data) {
-    if (!this.head) {
+    let found = this.findElement(data);
+    if (!found) {
+      alert("Value not found");
       return;
     }
-    if (this.head && this.head.data === data) {
-      this.head = this.head.next;
-    }
     let current = this.head;
-    while (current.next) {
-      if (current.next.data === data) {
-        current.next = current.next.next;
-      } else {
-        current = current.next;
+    let prev = null;
+    if (!current) {
+      return;
+    }
+    while (current) {
+      if (current.data === data) {
+        if (prev === null) {
+          this.head = current.next;
+        } else {
+          prev.next = current.next;
+        }
+        this.length--;
+        return current.data;
       }
+      prev = current;
+      current = current.next;
     }
-    if (this.tail.data === data) {
-      this.tail = current;
-    }
-    this.length--;
   }
 
   reverse() {
     if (!this.head || !this.head.next) {
       return this.head;
     }
-    this.tail = this.head;
     let previous = null;
     let next = null;
     while (this.head !== null) {
@@ -124,7 +130,7 @@ class LinkedList {
   }
 
   renderItems() {
-    containerForItems.classList.remove("none")
+    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     let current = this.head;
     while (current) {
@@ -132,9 +138,6 @@ class LinkedList {
       let text = "";
       if (current === this.head) {
         text += "Head. ";
-      }
-      if (current === this.tail) {
-        text += "Tail. ";
       }
       text += `Value = ${current.data}, next = ${
         current.next ? current.next.data : null
@@ -144,21 +147,24 @@ class LinkedList {
       containerForItems.appendChild(listItem);
       current = current.next;
     }
+    if (this.length === 0) {
+      containerForItems.classList.add("list_empty");
+    }
   }
 }
 
-let sllist = new LinkedList();
+let singleLinkedList = new LinkedList();
 
 addBtn.addEventListener("click", () => {
   const text = inputAdd.value.trim();
   const textAfter = inputAfter.value.trim();
   if (text !== "") {
     if (textAfter !== "") {
-      sllist.insertElementAfter(textAfter, text);
-      sllist.renderItems();
+      singleLinkedList.insertElementAfter(textAfter, text);
+      singleLinkedList.renderItems();
     } else {
-      sllist.appendElement(text);
-      sllist.renderItems();
+      singleLinkedList.appendElement(text);
+      singleLinkedList.renderItems();
     }
     inputAdd.value = "";
     inputAfter.value = "";
@@ -169,15 +175,15 @@ addBtn.addEventListener("click", () => {
 
 removeBtn.addEventListener("click", () => {
   if (inputAdd.value !== "") {
-    sllist.deleteElement(inputAdd.value);
+    singleLinkedList.deleteElement(inputAdd.value);
     inputAdd.value = "";
-    sllist.renderItems();
+    singleLinkedList.renderItems();
   } else {
     alert("Please type something");
   }
 });
 
 reverseBtn.addEventListener("click", () => {
-  sllist.reverse();
-  sllist.renderItems();
+  singleLinkedList.reverse();
+  singleLinkedList.renderItems();
 });
