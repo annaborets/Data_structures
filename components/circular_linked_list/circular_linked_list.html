@@ -9,13 +9,18 @@
   </head>
   <body>
     <div class="wrapper">
-      <h1 class="header">Set</h1>
-      <div class="set">
+      <h1 class="header">Circular linked list</h1>
+      <div class="sllist">
         <div class="input">
           <input
             type="text"
-            class="input__item"
+            class="input__item input__item_add"
             placeholder="Type value to add or remove..."
+          />
+          <input
+            type="text"
+            class="input__item input__item_after"
+            placeholder="Type value to add after..."
           />
         </div>
         <div class="buttons">
@@ -24,9 +29,11 @@
             Remove Item
           </button>
         </div>
-        <div class="list__container"></div>
+        <div class="list__container">
+          <ol class="list none"></ol>
+        </div>
       </div>
     </div>
-    <script src="/js/set.js"></script>
+    <script src="./circular_linked_list.js"></script>
   </body>
 </html>

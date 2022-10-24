@@ -9,18 +9,13 @@
   </head>
   <body>
     <div class="wrapper">
-      <h1 class="header">Single linked list</h1>
-      <div class="sllist">
+      <h1 class="header">Stack</h1>
+      <div class="stack">
         <div class="input">
           <input
             type="text"
-            class="input__item input__item_add"
-            placeholder="Type value to add or remove..."
-          />
-          <input
-            type="text"
-            class="input__item input__item_after"
-            placeholder="Type value to add after..."
+            class="input__item"
+            placeholder="Type value to add..."
           />
         </div>
         <div class="buttons">
@@ -28,13 +23,12 @@
           <button class="buttons__item buttons__item_remove">
             Remove Item
           </button>
-          <button class="buttons__item buttons__item_reverse">
-            Reverse List
-          </button>
         </div>
-        <div class="list__container"></div>
+        <div class="list__container">
+          <ol class="list none"></ol>
+        </div>
       </div>
     </div>
-    <script src="/js/single_linked_list.js"></script>
+    <script src="./stack.js"></script>
   </body>
 </html>

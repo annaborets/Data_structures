@@ -4,6 +4,7 @@ const list = document.querySelector(".list__container");
 const addBtn = document.querySelector(".buttons__item_add");
 const removeBtn = document.querySelector(".buttons__item_remove");
 const reverseBtn = document.querySelector(".buttons__item_reverse");
+const containerForItems = document.querySelector(".list");
 
 class DoubleLinkedListNode {
   constructor(data, next = null, previous = null) {
@@ -87,6 +88,7 @@ class DoubleLinkedList {
       return this.head;
     }
     let temp = null;
+    this.tail = this.head;
     let current = this.head;
     while (current !== null) {
       temp = current.previous;
@@ -112,39 +114,26 @@ class DoubleLinkedList {
   }
 
   renderItems() {
-    list.innerHTML = "";
-    const containerForItems = document.createElement("ol");
-
-    containerForItems.classList.add("list");
+    containerForItems.classList.remove("none")
+    containerForItems.innerHTML = "";
     let current = this.head;
-
     while (current) {
       const listItem = document.createElement("li");
-
       let text = "";
-
       if (current === this.head) {
         text += "Head. ";
       }
-
       if (current === this.tail) {
         text += "Tail. ";
       }
-
       text += `Value = ${current.data}, next = ${
         current.next ? current.next.data : null
       }, previous = ${current.previous ? current.previous.data : null}`;
-
       listItem.innerHTML = `<div>${text}</div>`;
-
       listItem.classList.add("list__item");
-
       containerForItems.appendChild(listItem);
-
       current = current.next;
     }
-
-    list.appendChild(containerForItems);
   }
 }
 

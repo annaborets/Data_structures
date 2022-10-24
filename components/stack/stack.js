@@ -2,8 +2,9 @@ const input = document.querySelector(".input__item");
 const list = document.querySelector(".list__container");
 const addBtn = document.querySelector(".buttons__item_add");
 const removeBtn = document.querySelector(".buttons__item_remove");
+const containerForItems = document.querySelector(".list");
 
-class Queue {
+class Stack {
   constructor(elements) {
     this.elements = Array.isArray(elements) ? elements : [];
   }
@@ -15,20 +16,20 @@ class Queue {
     return this.elements.push(item);
   }
 
-  deleteItem() {
-    return this.elements.shift();
+  popItem() {
+    return this.elements.pop();
   }
 
-  getFrontItem() {
-    return this.elements[0];
-  }
-
-  getSize() {
-    return this.elements.length;
+  getLastItem() {
+    return this.elements[this.getSize(this.elements) - 1];
   }
 
   isEmpty() {
     return this.getSize() === 0;
+  }
+
+  getSize() {
+    return this.elements.length;
   }
 
   print() {
@@ -36,26 +37,24 @@ class Queue {
   }
 
   renderItems() {
-    list.innerHTML = "";
-    const containerForItems = document.createElement("ol");
-    containerForItems.classList.add("list");
+    containerForItems.classList.remove("none")
+    containerForItems.innerHTML = "";
     this.elements.map((item) => {
-      const queueItem = document.createElement("li");
-      queueItem.classList.add("list__item");
-      queueItem.innerText = item;
-      containerForItems.appendChild(queueItem);
+      const stackItem = document.createElement("li");
+      stackItem.classList.add("list__item");
+      stackItem.innerText = item;
+      containerForItems.appendChild(stackItem);
     });
-    list.appendChild(containerForItems);
   }
 }
 
-let queue = new Queue();
+let stack = new Stack();
 
 addBtn.addEventListener("click", () => {
   const text = input.value.trim();
   if (text !== "") {
-    queue.addItem(text);
-    queue.renderItems();
+    stack.addItem(text);
+    stack.renderItems();
     input.value = "";
   } else {
     alert("Please type something");
@@ -63,6 +62,6 @@ addBtn.addEventListener("click", () => {
 });
 
 removeBtn.addEventListener("click", () => {
-  queue.deleteItem();
-  queue.renderItems();
+  stack.popItem();
+  stack.renderItems();
 });

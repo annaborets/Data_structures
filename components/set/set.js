@@ -2,6 +2,7 @@ const input = document.querySelector(".input__item");
 const list = document.querySelector(".list__container");
 const addBtn = document.querySelector(".buttons__item_add");
 const removeBtn = document.querySelector(".buttons__item_remove");
+const containerForItems = document.querySelector(".list");
 
 class Set {
   constructor(elements) {
@@ -44,16 +45,14 @@ class Set {
   }
 
   renderItems() {
-    list.innerHTML = "";
-    const containerForItems = document.createElement("ol");
-    containerForItems.classList.add("list");
+    containerForItems.classList.remove("none");
+    containerForItems.innerHTML = "";
     this.elements.map((item) => {
       const setItem = document.createElement("li");
       setItem.classList.add("list__item");
       setItem.innerText = item;
       containerForItems.appendChild(setItem);
     });
-    list.appendChild(containerForItems);
   }
 }
 
@@ -70,6 +69,9 @@ addBtn.addEventListener("click", () => {
 });
 
 removeBtn.addEventListener("click", () => {
+  if (input.value.length === 0) {
+    alert("Enter value to remove");
+  }
   set.deleteItem(input.value);
   input.value = "";
   set.renderItems();

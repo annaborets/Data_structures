@@ -3,6 +3,7 @@ const inputAfter = document.querySelector(".input__item_after");
 const list = document.querySelector(".list__container");
 const addBtn = document.querySelector(".buttons__item_add");
 const removeBtn = document.querySelector(".buttons__item_remove");
+const containerForItems = document.querySelector(".list");
 
 class CircularLinkedListNode {
   constructor(data, next = null) {
@@ -52,23 +53,26 @@ class CircularLinkedList {
     if (!this.head) {
       return;
     }
+    let counter = 0;
     let current = this.head;
-    while (current) {
+    while (counter < this.length) {
       if (current.data === data) {
         return current;
       }
       current = current.next;
+      counter++;
     }
   }
 
   insertElementAfter(after, data) {
     const found = this.findElement(after);
     if (!found) {
-      return;
+      alert("Value not found");
+    } else {
+      const node = new CircularLinkedListNode(data, found.next);
+      found.next = node;
+      this.length++;
     }
-    const node = new CircularLinkedListNode(data, found.next);
-    found.next = node;
-    this.length++;
   }
 
   deleteElement(data) {
@@ -110,38 +114,26 @@ class CircularLinkedList {
   }
 
   renderItems() {
-    list.innerHTML = "";
-    const containerForItems = document.createElement("ol");
-
-    containerForItems.classList.add("list");
+    containerForItems.classList.remove("none");
+    containerForItems.innerHTML = "";
     let current = this.head;
     let counter = 0;
     while (counter < this.length) {
       const listItem = document.createElement("li");
-
       let text = "";
-
       if (current === this.head) {
         text += "Head. ";
       }
-
       if (current === this.tail) {
         text += "Tail. ";
       }
-
       text += `Value = ${current.data}, next = ${current.next.data}`;
-
       listItem.innerHTML = `<div>${text}</div>`;
-
       listItem.classList.add("list__item");
-
       containerForItems.appendChild(listItem);
-
       current = current.next;
       counter++;
     }
-
-    list.appendChild(containerForItems);
   }
 }
 
@@ -158,11 +150,11 @@ addBtn.addEventListener("click", () => {
       clist.appendElement(text);
       clist.renderItems();
     }
-    inputAdd.value = "";
-    inputAfter.value = "";
   } else {
     alert("Please type something");
   }
+  inputAdd.value = "";
+  inputAfter.value = "";
 });
 
 removeBtn.addEventListener("click", () => {
