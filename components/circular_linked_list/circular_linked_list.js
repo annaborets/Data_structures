@@ -174,6 +174,10 @@ addBtn.addEventListener("click", () => {
 });
 
 removeBtn.addEventListener("click", () => {
+  if (!inputAdd.value) {
+    alert("Please type something");
+    return;
+  }
   circularLinkedList.deleteElement(inputAdd.value);
   inputAdd.value = "";
   circularLinkedList.renderItems();
