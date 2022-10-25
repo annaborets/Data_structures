@@ -76,40 +76,40 @@ class CircularLinkedList {
   }
 
   deleteElement(data) {
-    if (!this.head) {
-      return;
-    }
+    let counter = 0;
     let found = this.findElement(data);
     if (!found) {
       alert("Value not found");
       return;
     }
-    if (found === this.head && !this.head.next) {
-      this.head = null;
-      this.lenght--;
-      return this.head;
-    }
-    if (this.head && this.head.data === data) {
-      this.head = this.head.next;
-      this.tail.next = this.head;
-      this.length--;
-      return this.head;
-    }
     let current = this.head;
-    let counter = 0;
-    while (current.next && counter < this.length) {
-      if (current.next.data === data) {
-        current.next = current.next.next;
-      } else {
-        current = current.next;
+    let prev = null;
+    if (!current) {
+      return;
+    }
+    while (current && counter < this.length) {
+      if (current.data === data) {
+        if (current === this.head && current === this.tail) {
+          this.head = null;
+          this.tail = null;
+        } else if (current === this.head) {
+          this.head = this.head.next;
+          this.tail.next = this.head;
+        } else if (prev === null) {
+          this.head = current.next;
+        } else if (current === this.tail) {
+          this.tail = prev;
+          this.tail.next = this.head;
+        } else {
+          prev.next = current.next;
+        }
+        this.length--;
+        counter++;
+        return current.data;
       }
-      counter++;
+      prev = current;
+      current = current.next;
     }
-    if (this.tail.data === data) {
-      this.tail = current;
-    }
-    this.length--;
-    return current.data;
   }
 
   getLength() {
@@ -127,7 +127,6 @@ class CircularLinkedList {
   }
 
   renderItems() {
-    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     let current = this.head;
     let counter = 0;
@@ -147,8 +146,10 @@ class CircularLinkedList {
       current = current.next;
       counter++;
     }
-    if (this.length === 0) {
+    if (this.lenght === 0) {
       containerForItems.classList.add("list_empty");
+    } else {
+      containerForItems.classList.remove("list_empty");
     }
   }
 }

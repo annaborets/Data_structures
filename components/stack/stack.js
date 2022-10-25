@@ -37,7 +37,6 @@ class Stack {
   }
 
   renderItems() {
-    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     this.elements.map((item) => {
       const stackItem = document.createElement("li");
@@ -45,8 +44,10 @@ class Stack {
       stackItem.innerText = item;
       containerForItems.appendChild(stackItem);
     });
-    if (this.elements.length === 0) {
+    if (this.elements.lenght === 0) {
       containerForItems.classList.add("list_empty");
+    } else {
+      containerForItems.classList.remove("list_empty");
     }
   }
 }

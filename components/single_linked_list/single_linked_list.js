@@ -130,7 +130,6 @@ class LinkedList {
   }
 
   renderItems() {
-    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     let current = this.head;
     while (current) {
@@ -147,8 +146,10 @@ class LinkedList {
       containerForItems.appendChild(listItem);
       current = current.next;
     }
-    if (this.length === 0) {
+    if (this.lenght === 0) {
       containerForItems.classList.add("list_empty");
+    } else {
+      containerForItems.classList.remove("list_empty");
     }
   }
 }

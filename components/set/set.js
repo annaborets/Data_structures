@@ -25,6 +25,10 @@ class Set {
   }
 
   deleteItem(item) {
+    if (!this.hasItem(item)) {
+      alert("Value not found");
+      return;
+    }
     let index = this.elements.indexOf(item);
     if (index > -1) {
       this.elements.splice(index, 1);
@@ -45,7 +49,6 @@ class Set {
   }
 
   renderItems() {
-    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     this.elements.map((item) => {
       const setItem = document.createElement("li");
@@ -53,8 +56,10 @@ class Set {
       setItem.innerText = item;
       containerForItems.appendChild(setItem);
     });
-    if (this.elements.length === 0) {
+    if (this.elements.lenght === 0) {
       containerForItems.classList.add("list_empty");
+    } else {
+      containerForItems.classList.remove("list_empty");
     }
   }
 }

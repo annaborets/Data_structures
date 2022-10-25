@@ -37,7 +37,6 @@ class Queue {
   }
 
   renderItems() {
-    containerForItems.classList.remove("list_empty");
     containerForItems.innerHTML = "";
     this.elements.map((item) => {
       const queueItem = document.createElement("li");
@@ -45,8 +44,10 @@ class Queue {
       queueItem.innerText = item;
       containerForItems.appendChild(queueItem);
     });
-    if (this.elements.length === 0) {
+    if (this.elementslenght === 0) {
       containerForItems.classList.add("list_empty");
+    } else {
+      containerForItems.classList.remove("list_empty");
     }
   }
 }
